@@ -1,4 +1,4 @@
-########################
+###########################
 
 PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class
 
@@ -38,7 +38,7 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision C, 05/21/2022
+Software Revision D, 07/20/2022
 
 Verified working on: 
 
@@ -52,9 +52,17 @@ Raspberry Pi Buster
 
 *NOTE THAT YOU MUST INSTALL BOTH THE Phidget22 LIBRARY AS WELL AS THE PYTHON MODULE.*
 
-########################  
+###########################
 
 ########################### Python module installation instructions, all OS's
+
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies: ['future.builtins', 'Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'Phidget22']
+
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_TestProgram: ['future.builtins', 'MyPrint_ReubenPython2and3Class']
+
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_NestedLayers: ['future.builtins', 'numpy']
+
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_All: ['future.builtins', 'Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'numpy', 'Phidget22']
 
 https://pypi.org/project/Phidget22/#files
 
