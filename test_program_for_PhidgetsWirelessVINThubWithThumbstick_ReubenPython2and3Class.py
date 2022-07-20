@@ -6,22 +6,29 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision C, 05/21/2022
+Software Revision D, 07/20/2022
 
 Verified working on: Python 2.7, 3.8 for Windows 8.1, 10 64-bit and Raspberry Pi Buster (no Mac testing yet).
 '''
 
 __author__ = 'reuben.brewer'
 
+#########################################################
 from PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class import *
 from MyPrint_ReubenPython2and3Class import *
+#########################################################
 
-import os, sys, platform
-import time, datetime
+#########################################################
+import os
+import sys
+import platform
+import time
+import datetime
 import threading
 import collections
+#########################################################
 
-###############
+#########################################################
 if sys.version_info[0] < 3:
     from Tkinter import * #Python 2
     import tkFont
@@ -30,22 +37,22 @@ else:
     from tkinter import * #Python 3
     import tkinter.font as tkFont #Python 3
     from tkinter import ttk
-###############
+#########################################################
 
-###############
+#########################################################
 if sys.version_info[0] < 3:
     from builtins import raw_input as input
 else:
     from future.builtins import input as input #"sudo pip3 install future" (Python 3) AND "sudo pip install future" (Python 2)
-###############
+#########################################################
 
-###############
+#########################################################
 import platform
 if platform.system() == "Windows":
     import ctypes
     winmm = ctypes.WinDLL('winmm')
     winmm.timeBeginPeriod(1) #Set minimum timer resolution to 1ms so that time.sleep(0.001) behaves properly.
-###############
+#########################################################
 
 ###########################################################################################################
 ##########################################################################################################
@@ -60,12 +67,13 @@ def getPreciseSecondsTimeStampString():
 ##########################################################################################################
 def TestButtonResponse():
     global MyPrint_ReubenPython2and3ClassObject
-    global USE_MYPRINT_FLAG
+    global MYPRINT_OPEN_FLAG
 
-    if USE_MYPRINT_FLAG == 1:
+    if MYPRINT_OPEN_FLAG == 1:
         MyPrint_ReubenPython2and3ClassObject.my_print("Test Button was Pressed!")
     else:
         print("Test Button was Pressed!")
+
 ##########################################################################################################
 ##########################################################################################################
 
@@ -146,11 +154,11 @@ def GUI_Thread():
         #################################################
         TabControlObject = ttk.Notebook(root)
 
-        Tab_MainControls = ttk.Frame(TabControlObject)
-        TabControlObject.add(Tab_MainControls, text='   Main Controls   ')
-
         Tab_WiFiVINTthumbstick = ttk.Frame(TabControlObject)
         TabControlObject.add(Tab_WiFiVINTthumbstick, text='   WiFiVINTthumbstick   ')
+
+        Tab_MainControls = ttk.Frame(TabControlObject)
+        TabControlObject.add(Tab_MainControls, text='   Main Controls   ')
 
         Tab_MyPrint = ttk.Frame(TabControlObject)
         TabControlObject.add(Tab_MyPrint, text='   MyPrint Terminal   ')
@@ -227,7 +235,7 @@ if __name__ == '__main__':
     USE_GUI_FLAG = 1
 
     global USE_TABS_IN_GUI_FLAG
-    USE_TABS_IN_GUI_FLAG = 0
+    USE_TABS_IN_GUI_FLAG = 1
 
     global USE_WiFiVINTthumbstick_FLAG
     USE_WiFiVINTthumbstick_FLAG = 1
@@ -259,7 +267,7 @@ if __name__ == '__main__':
 
     GUI_COLUMN_WiFiVINTthumbstick = 0
     GUI_PADX_WiFiVINTthumbstick = 1
-    GUI_PADY_WiFiVINTthumbstick = 10
+    GUI_PADY_WiFiVINTthumbstick = 1
     GUI_ROWSPAN_WiFiVINTthumbstick = 1
     GUI_COLUMNSPAN_WiFiVINTthumbstick = 1
 
@@ -273,7 +281,7 @@ if __name__ == '__main__':
 
     GUI_COLUMN_MYPRINT = 0
     GUI_PADX_MYPRINT = 1
-    GUI_PADY_MYPRINT = 10
+    GUI_PADY_MYPRINT = 1
     GUI_ROWSPAN_MYPRINT = 1
     GUI_COLUMNSPAN_MYPRINT = 1
     #################################################
@@ -293,7 +301,7 @@ if __name__ == '__main__':
     global root
 
     global root_Xpos
-    root_Xpos = 70
+    root_Xpos = 900
 
     global root_Ypos
     root_Ypos = 0
@@ -322,24 +330,25 @@ if __name__ == '__main__':
     WiFiVINTthumbstick_OPEN_FLAG = -1
 
     global WiFiVINTthumbstick_MostRecentDict
+    WiFiVINTthumbstick_MostRecentDict = dict()
 
-    global WiFiVINTthumbstick_VoltageRatioInput0Object_VoltageRatio
-    WiFiVINTthumbstick_VoltageRatioInput0Object_VoltageRatio = -11111.0
+    global WiFiVINTthumbstick_MostRecentDict_VoltageRatioInput0Object_VoltageRatio
+    WiFiVINTthumbstick_MostRecentDict_VoltageRatioInput0Object_VoltageRatio = -11111.0
 
-    global WiFiVINTthumbstick_VoltageRatioInput1Object_VoltageRatio
-    WiFiVINTthumbstick_VoltageRatioInput1Object_VoltageRatio = -11111.0
+    global WiFiVINTthumbstick_MostRecentDict_VoltageRatioInput1Object_VoltageRatio
+    WiFiVINTthumbstick_MostRecentDict_VoltageRatioInput1Object_VoltageRatio = -11111.0
 
-    global WiFiVINTthumbstick_DigitalInput0Object_State
-    WiFiVINTthumbstick_DigitalInput0Object_State = -11111.0
+    global WiFiVINTthumbstick_MostRecentDict_DigitalInput0Object_State
+    WiFiVINTthumbstick_MostRecentDict_DigitalInput0Object_State = -11111.0
 
-    global WiFiVINTthumbstick_DataStreamingFrequency_CalculatedFromMainThread
-    WiFiVINTthumbstick_DataStreamingFrequency_CalculatedFromMainThread = -11111.0
+    global WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_CalculatedFromMainThread
+    WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_CalculatedFromMainThread = -11111.0
 
-    global WiFiVINTthumbstick_DataStreamingFrequency_TimestampFromVoltageRatioInput0DataCallback
-    WiFiVINTthumbstick_DataStreamingFrequency_TimestampFromVoltageRatioInput0DataCallback = -11111.0
+    global WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_TimestampFromVoltageRatioInput0DataCallback
+    WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_TimestampFromVoltageRatioInput0DataCallback = -11111.0
 
-    global WiFiVINTthumbstick_DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback
-    WiFiVINTthumbstick_DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback = -11111.0
+    global WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback
+    WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback = -11111.0
 
     global WiFiVINTthumbstick_MostRecentDict_Time
     WiFiVINTthumbstick_MostRecentDict_Time = -11111.0
@@ -388,18 +397,18 @@ if __name__ == '__main__':
 
     global PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3ClassObject_setup_dict
     PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3ClassObject_setup_dict = dict([("GUIparametersDict", PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3ClassObject_GUIparametersDict),
-                                                                                ("VINT_DesiredSerialNumber", 598210), #CHANGE THIS TO MATCH YOUR UNIQUE VINT
+                                                                                ("VINT_DesiredSerialNumber", -1), #-1 MEANS ANY SN, CHANGE THIS TO MATCH YOUR UNIQUE VINT
                                                                                 ("VINT_DesiredPortNumber", 4), #CHANGE THIS TO MATCH YOUR UNIQUE VINT
                                                                                 ("DesiredDeviceID", 63),
                                                                                 ("WaitForAttached_TimeoutDuration_Milliseconds", 10000),
                                                                                 ("NameToDisplay_UserSet", "Reuben's Test WiFi VINT with Thumbstick"),
                                                                                 ("UsePhidgetsLoggingInternalToThisClassObjectFlag", 1),
                                                                                 ("MainThread_TimeToSleepEachLoop", 0.010),
-                                                                                ("UpdateDeltaT_ms", 20), #20mS -->50Hz
+                                                                                ("UpdateDeltaT_ms", 20),
                                                                                 ("WirelessVINThub_ServerName_Str", "Phidgets_HUB5000_2AE182"),
                                                                                 ("WirelessVINThub_Address_Str", "192.168.100.1"), #hub5000.local #192.168.100.1 #Change to your IP address
                                                                                 ("WirelessVINThub_Port_Int", 5661), #Change to your port number
-                                                                                ("WirelessVINThub_ServerNotWiFiAccessPointNetworkPassword_Str", "password"), #Change to your password
+                                                                                ("WirelessVINThub_ServerNotWiFiAccessPointNetworkPassword_Str", "AardvarkBadgerHedgehog"), #Change to your password
                                                                                 ("WirelessVINThub_Flags_Int", 0),
                                                                                 ("VoltageRatioInput0Object_SteadyStateOffset", 0.147),
                                                                                 ("VoltageRatioInput1Object_SteadyStateOffset", 0.018),
@@ -409,7 +418,6 @@ if __name__ == '__main__':
     if USE_WiFiVINTthumbstick_FLAG == 1:
         try:
             PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3ClassObject = PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3ClassObject_setup_dict)
-            time.sleep(0.25)
             WiFiVINTthumbstick_OPEN_FLAG = PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3ClassObject.OBJECT_CREATED_SUCCESSFULLY_FLAG
 
         except:
@@ -441,7 +449,6 @@ if __name__ == '__main__':
 
         try:
             MyPrint_ReubenPython2and3ClassObject = MyPrint_ReubenPython2and3Class(MyPrint_ReubenPython2and3ClassObject_setup_dict)
-            time.sleep(0.25)
             MYPRINT_OPEN_FLAG = MyPrint_ReubenPython2and3ClassObject.OBJECT_CREATED_SUCCESSFULLY_FLAG
 
         except:
@@ -486,13 +493,13 @@ if __name__ == '__main__':
             WiFiVINTthumbstick_MostRecentDict = PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3ClassObject.GetMostRecentDataDict()
 
             if "Time" in WiFiVINTthumbstick_MostRecentDict:
-                WiFiVINTthumbstick_VoltageRatioInput0Object_VoltageRatio = WiFiVINTthumbstick_MostRecentDict["VoltageRatioInput0Object_VoltageRatio"]
-                WiFiVINTthumbstick_VoltageRatioInput1Object_VoltageRatio = WiFiVINTthumbstick_MostRecentDict["VoltageRatioInput1Object_VoltageRatio"]
-                WiFiVINTthumbstick_DigitalInput0Object_State = WiFiVINTthumbstick_MostRecentDict["DigitalInput0Object_State"]
-                WiFiVINTthumbstick_DataStreamingFrequency_CalculatedFromMainThread = WiFiVINTthumbstick_MostRecentDict["DataStreamingFrequency_CalculatedFromMainThread"]
-                WiFiVINTthumbstick_DataStreamingFrequency_TimestampFromVoltageRatioInput0DataCallback = WiFiVINTthumbstick_MostRecentDict["DataStreamingFrequency_TimestampFromVoltageRatioInput0DataCallback"]
-                WiFiVINTthumbstick_DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback = WiFiVINTthumbstick_MostRecentDict["DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback"]
-                WiFiVINTthumbstick_Time = WiFiVINTthumbstick_MostRecentDict["Time"]
+                WiFiVINTthumbstick_MostRecentDict_VoltageRatioInput0Object_VoltageRatio = WiFiVINTthumbstick_MostRecentDict["VoltageRatioInput0Object_VoltageRatio"]
+                WiFiVINTthumbstick_MostRecentDict_VoltageRatioInput1Object_VoltageRatio = WiFiVINTthumbstick_MostRecentDict["VoltageRatioInput1Object_VoltageRatio"]
+                WiFiVINTthumbstick_MostRecentDict_DigitalInput0Object_State = WiFiVINTthumbstick_MostRecentDict["DigitalInput0Object_State"]
+                WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_CalculatedFromMainThread = WiFiVINTthumbstick_MostRecentDict["DataStreamingFrequency_CalculatedFromMainThread"]
+                WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_TimestampFromVoltageRatioInput0DataCallback = WiFiVINTthumbstick_MostRecentDict["DataStreamingFrequency_TimestampFromVoltageRatioInput0DataCallback"]
+                WiFiVINTthumbstick_MostRecentDict_DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback = WiFiVINTthumbstick_MostRecentDict["DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback"]
+                WiFiVINTthumbstick_MostRecentDict_Time = WiFiVINTthumbstick_MostRecentDict["Time"]
 
                 #print("WiFiVINTthumbstick_MostRecentDict_Time: " + str(WiFiVINTthumbstick_MostRecentDict_Time))
         ###################################################
