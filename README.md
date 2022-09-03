@@ -6,6 +6,7 @@ Wrapper (including ability to hook to Tkinter GUI) for reading a 2-axis thumbsti
 Great for wireless hand-controller.
 
 From Phidgets' website:
+
 "The Wireless VINT Hub is a simple way to use Phidgets in locations away from a
 computer by making them available on your local network via the Phidget Network Server.
 The HUB5000 requires a local WiFi signal and a power supply.
@@ -16,17 +17,11 @@ The stick springs back to the neutral position when released. It can also be pre
 which will register in software and can be tied to a function in your software.
 This Phidget connects to your computer through a VINT Hub."
 
-Wireless VINT Hub
-
-ID: HUB5000_0
+Wireless VINT Hub, ID: HUB5000_0
 
 https://www.phidgets.com/?tier=3&catid=2&pcid=1&prodid=1143
 
-Coupled with
-
-Thumbstick Phidget
-
-ID: HIN1100_0
+Coupled with Thumbstick Phidget, ID: HIN1100_0
 
 https://www.phidgets.com/?&prodid=962
 
@@ -38,7 +33,7 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision D, 07/20/2022
+Software Revision E, 08/29/2022
 
 Verified working on: 
 
@@ -58,7 +53,7 @@ Raspberry Pi Buster
 
 PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies: ['future.builtins', 'Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'Phidget22']
 
-PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_TestProgram: ['future.builtins', 'MyPrint_ReubenPython2and3Class']
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_TestProgram: ['MyPrint_ReubenPython2and3Class']
 
 PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_NestedLayers: ['future.builtins', 'numpy']
 
