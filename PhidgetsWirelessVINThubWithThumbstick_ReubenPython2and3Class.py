@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision D, 07/20/2022
+Software Revision E, 08/29/2022
 
 Verified working on: Python 2.7, 3.8 for Windows 8.1, 10 64-bit and Raspberry Pi Buster (no Mac testing yet).
 '''
@@ -26,6 +26,7 @@ import time
 import datetime
 import math
 import collections
+from copy import * #for deepcopy
 import inspect #To enable 'TellWhichFileWereIn'
 import threading
 import traceback
@@ -1383,7 +1384,7 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
                                 ("DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback", self.DataStreamingFrequency_TimestampFromVoltageRatioInput1DataCallback),
                                 ("Time", self.CurrentTime_TimestampFromVoltageRatioInput0DataCallback)])
 
-            return self.MostRecentDataDict
+            return deepcopy(self.MostRecentDataDict) #deepcopy IS required as MostRecentDataDict contains lists.
 
         else:
             return dict() #So that we're not returning variables during the close-down process.
@@ -1604,60 +1605,6 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
     ##########################################################################################################
     ##########################################################################################################
-    def IsInputList(self, input, print_result_flag = 0):
-
-        result = isinstance(input, list)
-
-        if print_result_flag == 1:
-            self.MyPrint_WithoutLogFile("IsInputList: " + str(result))
-
-        return result
-    ##########################################################################################################
-    ##########################################################################################################
-
-    ##########################################################################################################
-    ##########################################################################################################
-    def ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput(self, input, number_of_leading_numbers=4, number_of_decimal_places=3):
-        IsListFlag = self.IsInputList(input)
-
-        if IsListFlag == 0:
-            float_number_list = [input]
-        else:
-            float_number_list = list(input)
-
-        float_number_list_as_strings = []
-        for element in float_number_list:
-            try:
-                element = float(element)
-                prefix_string = "{:." + str(number_of_decimal_places) + "f}"
-                element_as_string = prefix_string.format(element)
-                float_number_list_as_strings.append(element_as_string)
-            except:
-                self.MyPrint_WithoutLogFile(self.TellWhichFileWereIn() + ": ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput ERROR: " + str(element) + " cannot be turned into a float")
-                return -1
-
-        StringToReturn = ""
-        if IsListFlag == 0:
-            StringToReturn = float_number_list_as_strings[0].zfill(number_of_leading_numbers + number_of_decimal_places + 1 + 1)  # +1 for sign, +1 for decimal place
-        else:
-            StringToReturn = "["
-            for index, StringElement in enumerate(float_number_list_as_strings):
-                if float_number_list[index] >= 0:
-                    StringElement = "+" + StringElement  # So that our strings always have either + or - signs to maintain the same string length
-
-                StringElement = StringElement.zfill(number_of_leading_numbers + number_of_decimal_places + 1 + 1)  # +1 for sign, +1 for decimal place
-
-                if index != len(float_number_list_as_strings) - 1:
-                    StringToReturn = StringToReturn + StringElement + ", "
-                else:
-                    StringToReturn = StringToReturn + StringElement + "]"
-
-        return StringToReturn
-    ##########################################################################################################
-    ##########################################################################################################
-
-    ##########################################################################################################
-    ##########################################################################################################
     def MyPrint_WithoutLogFile(self, input_string):
 
         input_string = str(input_string)
@@ -1685,5 +1632,176 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
                     self.PrintToGui_Label_TextInput_Str = self.PrintToGui_Label_TextInput_Str + "\n"
             ################################
 
+    ##########################################################################################################
+    ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    def IsInputList(self, InputToCheck):
+
+        result = isinstance(InputToCheck, list)
+        return result
+    ##########################################################################################################
+    ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+    def ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput(self, input, number_of_leading_numbers = 4, number_of_decimal_places = 3):
+
+        number_of_decimal_places = max(1, number_of_decimal_places) #Make sure we're above 1
+
+        ListOfStringsToJoin = []
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+        if isinstance(input, str) == 1:
+            ListOfStringsToJoin.append(input)
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+        elif isinstance(input, int) == 1 or isinstance(input, float) == 1:
+            element = float(input)
+            prefix_string = "{:." + str(number_of_decimal_places) + "f}"
+            element_as_string = prefix_string.format(element)
+
+            ##########################################################################################################
+            ##########################################################################################################
+            if element >= 0:
+                element_as_string = element_as_string.zfill(number_of_leading_numbers + number_of_decimal_places + 1 + 1)  # +1 for sign, +1 for decimal place
+                element_as_string = "+" + element_as_string  # So that our strings always have either + or - signs to maintain the same string length
+            else:
+                element_as_string = element_as_string.zfill(number_of_leading_numbers + number_of_decimal_places + 1 + 1 + 1)  # +1 for sign, +1 for decimal place
+            ##########################################################################################################
+            ##########################################################################################################
+
+            ListOfStringsToJoin.append(element_as_string)
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+        elif isinstance(input, list) == 1:
+
+            if len(input) > 0:
+                for element in input: #RECURSION
+                    ListOfStringsToJoin.append(self.ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput(element, number_of_leading_numbers, number_of_decimal_places))
+
+            else: #Situation when we get a list() or []
+                ListOfStringsToJoin.append(str(input))
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+        elif isinstance(input, tuple) == 1:
+
+            if len(input) > 0:
+                for element in input: #RECURSION
+                    ListOfStringsToJoin.append("TUPLE" + self.ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput(element, number_of_leading_numbers, number_of_decimal_places))
+
+            else: #Situation when we get a list() or []
+                ListOfStringsToJoin.append(str(input))
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+        elif isinstance(input, dict) == 1:
+
+            if len(input) > 0:
+                for Key in input: #RECURSION
+                    ListOfStringsToJoin.append(str(Key) + ": " + self.ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput(input[Key], number_of_leading_numbers, number_of_decimal_places))
+
+            else: #Situation when we get a dict()
+                ListOfStringsToJoin.append(str(input))
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+        else:
+            ListOfStringsToJoin.append(str(input))
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+        if len(ListOfStringsToJoin) > 1:
+
+            ##########################################################################################################
+            ##########################################################################################################
+
+            ##########################################################################################################
+            StringToReturn = ""
+            for Index, StringToProcess in enumerate(ListOfStringsToJoin):
+
+                ################################################
+                if Index == 0: #The first element
+                    if StringToProcess.find(":") != -1 and StringToProcess[0] != "{": #meaning that we're processing a dict()
+                        StringToReturn = "{"
+                    elif StringToProcess.find("TUPLE") != -1 and StringToProcess[0] != "(":  # meaning that we're processing a tuple
+                        StringToReturn = "("
+                    else:
+                        StringToReturn = "["
+
+                    StringToReturn = StringToReturn + StringToProcess.replace("TUPLE","") + ", "
+                ################################################
+
+                ################################################
+                elif Index < len(ListOfStringsToJoin) - 1: #The middle elements
+                    StringToReturn = StringToReturn + StringToProcess + ", "
+                ################################################
+
+                ################################################
+                else: #The last element
+                    StringToReturn = StringToReturn + StringToProcess
+
+                    if StringToProcess.find(":") != -1 and StringToProcess[-1] != "}":  # meaning that we're processing a dict()
+                        StringToReturn = StringToReturn + "}"
+                    elif StringToProcess.find("TUPLE") != -1 and StringToProcess[-1] != ")":  # meaning that we're processing a tuple
+                        StringToReturn = StringToReturn + ")"
+                    else:
+                        StringToReturn = StringToReturn + "]"
+
+                ################################################
+
+            ##########################################################################################################
+
+            ##########################################################################################################
+            ##########################################################################################################
+
+        elif len(ListOfStringsToJoin) == 1:
+            StringToReturn = ListOfStringsToJoin[0]
+
+        else:
+            StringToReturn = ListOfStringsToJoin
+
+        return StringToReturn
+        ##########################################################################################################
+        ##########################################################################################################
+        ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
     ##########################################################################################################
     ##########################################################################################################
