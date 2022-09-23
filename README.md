@@ -17,11 +17,17 @@ The stick springs back to the neutral position when released. It can also be pre
 which will register in software and can be tied to a function in your software.
 This Phidget connects to your computer through a VINT Hub."
 
-Wireless VINT Hub, ID: HUB5000_0
+Wireless VINT Hub
+
+ID: HUB5000_0
 
 https://www.phidgets.com/?tier=3&catid=2&pcid=1&prodid=1143
 
-Coupled with Thumbstick Phidget, ID: HIN1100_0
+Coupled with
+
+Thumbstick Phidget
+
+ID: HIN1100_0
 
 https://www.phidgets.com/?&prodid=962
 
@@ -33,7 +39,7 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision E, 08/29/2022
+Software Revision F, 09/21/2022
 
 Verified working on: 
 
