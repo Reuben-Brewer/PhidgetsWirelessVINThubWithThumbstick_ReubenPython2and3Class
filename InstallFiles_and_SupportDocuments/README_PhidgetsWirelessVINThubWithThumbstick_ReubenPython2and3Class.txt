@@ -34,15 +34,21 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision F, 09/21/2022
+Software Revision G, 05/10/2023
 
 Verified working on: 
 Python 2.7, 3.8.
 Windows 8.1, 10 64-bit
 Raspberry Pi Buster 
-(no Mac testing yet)
+(Does not work on Mac due to TKinter issues.)
 
-*NOTE THAT YOU MUST INSTALL BOTH THE Phidget22 LIBRARY AS WELL AS THE PYTHON MODULE.*
+*NOTE THAT
+1. YOU MUST INSTALL BOTH THE Phidget22 LIBRARY AS WELL AS THE PYTHON MODULE.
+2a. The device's red LED will be lit continously when working correctly.
+2b. Low/drooping voltage from a battery can cause the red LED to be illuminated continuously but not allow proper operation.
+3. Your browser and program may be able to communicate with the device even if the Phidgets Control Panel doesn't show it.
+4. VMware's and Checkpoint/VPN's virtual network adapters often interfere with the device's connectivity to your computer.
+5. The device's connectivity to your computer may depend upon the quality of the WiFi card (integrated vs USB-WiFi vs with large antenna or not).*
 
 ###########################
 
@@ -51,7 +57,7 @@ Raspberry Pi Buster
 PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies: ['future.builtins', 'Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'Phidget22']
 PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_TestProgram: ['MyPrint_ReubenPython2and3Class']
 PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_NestedLayers: ['future.builtins', 'numpy']
-PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_All: ['future.builtins', 'Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'numpy', 'Phidget22']
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_All:['future.builtins', 'Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'numpy', 'Phidget22']
 
 https://pypi.org/project/Phidget22/#files
 

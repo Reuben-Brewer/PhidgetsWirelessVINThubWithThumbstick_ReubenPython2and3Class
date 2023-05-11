@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision F, 09/21/2022
+Software Revision G, 05/10/2023
 
 Verified working on: Python 2.7, 3.8 for Windows 8.1, 10 64-bit and Raspberry Pi Buster (no Mac testing yet).
 '''
@@ -393,7 +393,7 @@ if __name__ == '__main__':
                                                                                 ("VINT_DesiredSerialNumber", -1), #-1 MEANS ANY SN, CHANGE THIS TO MATCH YOUR UNIQUE VINT
                                                                                 ("VINT_DesiredPortNumber", 4), #CHANGE THIS TO MATCH YOUR UNIQUE VINT
                                                                                 ("DesiredDeviceID", 63),
-                                                                                ("WaitForAttached_TimeoutDuration_Milliseconds", 10000),
+                                                                                ("WaitForAttached_TimeoutDuration_Milliseconds", 15000),
                                                                                 ("NameToDisplay_UserSet", "Reuben's Test WiFi VINT with Thumbstick"),
                                                                                 ("UsePhidgetsLoggingInternalToThisClassObjectFlag", 1),
                                                                                 ("MainThread_TimeToSleepEachLoop", 0.010),
@@ -478,7 +478,7 @@ if __name__ == '__main__':
         CurrentTime_MainLoopThread = getPreciseSecondsTimeStampString() - StartingTime_MainLoopThread
         ###################################################
 
-        ###################################################
+        ################################################### GET's
         if WiFiVINTthumbstick_OPEN_FLAG == 1:
 
             WiFiVINTthumbstick_MostRecentDict = PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3ClassObject.GetMostRecentDataDict()
