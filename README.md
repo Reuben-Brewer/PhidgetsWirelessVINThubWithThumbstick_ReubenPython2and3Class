@@ -54,10 +54,15 @@ Raspberry Pi Buster
 *NOTE THAT
 
 1. YOU MUST INSTALL BOTH THE Phidget22 LIBRARY AS WELL AS THE PYTHON MODULE.
+
 2a. The device's red LED will be lit continously when working correctly.
+
 2b. Low/drooping voltage from a battery can cause the red LED to be illuminated continuously but not allow proper operation.
+
 3. Your browser and program may be able to communicate with the device even if the Phidgets Control Panel doesn't show it.
+
 4. VMware's and Checkpoint/VPN's virtual network adapters often interfere with the device's connectivity to your computer.
+
 5. The device's connectivity to your computer may depend upon the quality of the WiFi card (integrated vs USB-WiFi vs with large antenna or not).*
 
 ###########################
