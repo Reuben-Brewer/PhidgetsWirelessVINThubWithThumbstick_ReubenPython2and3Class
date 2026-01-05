@@ -6,7 +6,6 @@ Wrapper (including ability to hook to Tkinter GUI) for reading a 2-axis thumbsti
 Great for wireless hand-controller.
 
 From Phidgets' website:
-
 "The Wireless VINT Hub is a simple way to use Phidgets in locations away from a
 computer by making them available on your local network via the Phidget Network Server.
 The HUB5000 requires a local WiFi signal and a power supply.
@@ -39,19 +38,21 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision G, 05/10/2023
+Software Revision H, 12/31/2025
 
-Verified working on: 
+Verified working on:
 
-Python 2.7, 3.8.
+Python 3.12/13.
 
-Windows 8.1, 10 64-bit
+Windows 10/11 64-bit
 
-Raspberry Pi Buster 
+Raspberry Pi Bookworm
 
-(Does not work on Mac due to TKinter issues.)
+(Might work on Mac in non-GUI mode but haven't tested)
 
 *NOTE THAT
+
+0. YOU MUST INSTALL Bonjour64.msi BEFORE STARTING.
 
 1. YOU MUST INSTALL BOTH THE Phidget22 LIBRARY AS WELL AS THE PYTHON MODULE.
 
@@ -69,13 +70,13 @@ Raspberry Pi Buster
 
 ########################### Python module installation instructions, all OS's
 
-PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies: ['future.builtins', 'Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'Phidget22']
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies: ['Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'Phidget22', 'ReubenGithubCodeModulePaths']
 
-PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_TestProgram: ['MyPrint_ReubenPython2and3Class']
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_TestProgram: ['keyboard', 'MyPrint_ReubenPython2and3Class', 'ReubenGithubCodeModulePaths']
 
-PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_NestedLayers: ['future.builtins', 'numpy']
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_NestedLayers: ['numpy']
 
-PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_All:['future.builtins', 'Joystick2DdotDisplay_ReubenPython2and3Class', 'LowPassFilter_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'numpy', 'Phidget22']
+PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, ListOfModuleDependencies_All:['Joystick2DdotDisplay_ReubenPython2and3Class', 'keyboard', 'LowPassFilter_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'numpy', 'Phidget22', 'ReubenGithubCodeModulePaths']
 
 https://pypi.org/project/Phidget22/#files
 
