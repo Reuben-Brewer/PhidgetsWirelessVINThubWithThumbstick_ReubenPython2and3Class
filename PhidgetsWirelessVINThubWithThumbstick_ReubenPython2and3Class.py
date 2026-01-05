@@ -6,12 +6,20 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision G, 05/10/2023
+Software Revision H, 12/31/2025
 
-Verified working on: Python 2.7, 3.8 for Windows 8.1, 10 64-bit and Raspberry Pi Buster (no Mac testing yet).
+Verified working on: Python 3.12/13 for Windows 10/11 64-bit and Raspberry Pi Bookworm (no Mac testing yet).
 '''
 
 __author__ = 'reuben.brewer'
+
+##########################################################################################################
+##########################################################################################################
+
+#########################################################
+import ReubenGithubCodeModulePaths #Replaces the need to have "ReubenGithubCodeModulePaths.pth" within "C:\Anaconda3\Lib\site-packages".
+ReubenGithubCodeModulePaths.Enable()
+#########################################################
 
 #########################################################
 from Joystick2DdotDisplay_ReubenPython2and3Class import *
@@ -29,33 +37,15 @@ import collections
 from copy import * #for deepcopy
 import inspect #To enable 'TellWhichFileWereIn'
 import threading
+import queue as Queue
 import traceback
 #########################################################
 
 #########################################################
-if sys.version_info[0] < 3:
-    from Tkinter import * #Python 2
-    import tkFont
-    import ttk
-else:
-    from tkinter import * #Python 3
-    import tkinter.font as tkFont #Python 3
-    from tkinter import ttk
+from tkinter import *
+import tkinter.font as tkFont
+from tkinter import ttk
 #########################################################
-
-#########################################################
-if sys.version_info[0] < 3:
-    import Queue  # Python 2
-else:
-    import queue as Queue  # Python 3
-#########################################################
-
-#########################################################
-if sys.version_info[0] < 3:
-    from builtins import raw_input as input
-else:
-    from future.builtins import input as input
-######################################################### "sudo pip3 install future" (Python 3) AND "sudo pip install future" (Python 2)
 
 #########################################################
 import platform
@@ -77,11 +67,14 @@ from Phidget22.Devices.VoltageInput import *
 from Phidget22.Devices.VoltageRatioInput import *
 #########################################################
 
+##########################################################################################################
+##########################################################################################################
+
 class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subclass the Tkinter Frame
 
     #######################################################################################################################
     #######################################################################################################################
-    def __init__(self, setup_dict): #Subclass the Tkinter Frame
+    def __init__(self, SetupDict): #Subclass the Tkinter Frame
 
         print("#################### PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__ starting. ####################")
 
@@ -193,8 +186,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "GUIparametersDict" in setup_dict:
-            self.GUIparametersDict = setup_dict["GUIparametersDict"]
+        if "GUIparametersDict" in SetupDict:
+            self.GUIparametersDict = SetupDict["GUIparametersDict"]
 
             #########################################################
             #########################################################
@@ -204,16 +197,6 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
                 self.USE_GUI_FLAG = 0
 
             print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: USE_GUI_FLAG: " + str(self.USE_GUI_FLAG))
-            #########################################################
-            #########################################################
-
-            #########################################################
-            #########################################################
-            if "root" in self.GUIparametersDict:
-                self.root = self.GUIparametersDict["root"]
-            else:
-                print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: ERROR, must pass in 'root'")
-                return
             #########################################################
             #########################################################
 
@@ -349,9 +332,9 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "VINT_DesiredSerialNumber" in setup_dict:
+        if "VINT_DesiredSerialNumber" in SetupDict:
             try:
-                self.VINT_DesiredSerialNumber = int(setup_dict["VINT_DesiredSerialNumber"])
+                self.VINT_DesiredSerialNumber = int(SetupDict["VINT_DesiredSerialNumber"])
             except:
                 print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: ERROR, VINT_DesiredSerialNumber invalid.")
         else:
@@ -363,9 +346,9 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "VINT_DesiredPortNumber" in setup_dict:
+        if "VINT_DesiredPortNumber" in SetupDict:
             try:
-                self.VINT_DesiredPortNumber = int(setup_dict["VINT_DesiredPortNumber"])
+                self.VINT_DesiredPortNumber = int(SetupDict["VINT_DesiredPortNumber"])
             except:
                 print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: ERROR, VINT_DesiredPortNumber invalid.")
         else:
@@ -378,9 +361,9 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "DesiredDeviceID" in setup_dict:
+        if "DesiredDeviceID" in SetupDict:
             try:
-                self.DesiredDeviceID = int(setup_dict["DesiredDeviceID"])
+                self.DesiredDeviceID = int(SetupDict["DesiredDeviceID"])
             except:
                 print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: ERROR, DesiredDeviceID invalid.")
         else:
@@ -393,8 +376,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "NameToDisplay_UserSet" in setup_dict:
-            self.NameToDisplay_UserSet = str(setup_dict["NameToDisplay_UserSet"])
+        if "NameToDisplay_UserSet" in SetupDict:
+            self.NameToDisplay_UserSet = str(SetupDict["NameToDisplay_UserSet"])
         else:
             self.NameToDisplay_UserSet = ""
 
@@ -404,8 +387,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "WaitForAttached_TimeoutDuration_Milliseconds" in setup_dict:
-            self.WaitForAttached_TimeoutDuration_Milliseconds = int(self.PassThroughFloatValuesInRange_ExitProgramOtherwise("WaitForAttached_TimeoutDuration_Milliseconds", setup_dict["WaitForAttached_TimeoutDuration_Milliseconds"], 0.0, 60000.0))
+        if "WaitForAttached_TimeoutDuration_Milliseconds" in SetupDict:
+            self.WaitForAttached_TimeoutDuration_Milliseconds = int(self.PassThroughFloatValuesInRange_ExitProgramOtherwise("WaitForAttached_TimeoutDuration_Milliseconds", SetupDict["WaitForAttached_TimeoutDuration_Milliseconds"], 0.0, 60000.0))
 
         else:
             self.WaitForAttached_TimeoutDuration_Milliseconds = 5000
@@ -416,8 +399,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "UsePhidgetsLoggingInternalToThisClassObjectFlag" in setup_dict:
-            self.UsePhidgetsLoggingInternalToThisClassObjectFlag = self.PassThrough0and1values_ExitProgramOtherwise("UsePhidgetsLoggingInternalToThisClassObjectFlag", setup_dict["UsePhidgetsLoggingInternalToThisClassObjectFlag"])
+        if "UsePhidgetsLoggingInternalToThisClassObjectFlag" in SetupDict:
+            self.UsePhidgetsLoggingInternalToThisClassObjectFlag = self.PassThrough0and1values_ExitProgramOtherwise("UsePhidgetsLoggingInternalToThisClassObjectFlag", SetupDict["UsePhidgetsLoggingInternalToThisClassObjectFlag"])
         else:
             self.UsePhidgetsLoggingInternalToThisClassObjectFlag = 1
 
@@ -427,8 +410,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "MainThread_TimeToSleepEachLoop" in setup_dict:
-            self.MainThread_TimeToSleepEachLoop = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("MainThread_TimeToSleepEachLoop", setup_dict["MainThread_TimeToSleepEachLoop"], 0.001, 100000)
+        if "MainThread_TimeToSleepEachLoop" in SetupDict:
+            self.MainThread_TimeToSleepEachLoop = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("MainThread_TimeToSleepEachLoop", SetupDict["MainThread_TimeToSleepEachLoop"], 0.001, 100000)
 
         else:
             self.MainThread_TimeToSleepEachLoop = 0.005
@@ -439,8 +422,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "UpdateDeltaT_ms" in setup_dict:
-            self.UpdateDeltaT_ms = int(self.PassThroughFloatValuesInRange_ExitProgramOtherwise("UpdateDeltaT_ms", setup_dict["UpdateDeltaT_ms"], 20.0, 1000.0))
+        if "UpdateDeltaT_ms" in SetupDict:
+            self.UpdateDeltaT_ms = int(self.PassThroughFloatValuesInRange_ExitProgramOtherwise("UpdateDeltaT_ms", SetupDict["UpdateDeltaT_ms"], 20.0, 1000.0))
         else:
             self.UpdateDeltaT_ms = 20
 
@@ -450,8 +433,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "WirelessVINThub_ServerName_Str" in setup_dict:
-            self.WirelessVINThub_ServerName_Str = str(setup_dict["WirelessVINThub_ServerName_Str"])
+        if "WirelessVINThub_ServerName_Str" in SetupDict:
+            self.WirelessVINThub_ServerName_Str = str(SetupDict["WirelessVINThub_ServerName_Str"])
         else:
             print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: Error, 'WirelessVINThub_ServerName_Str' must be specified.")
             return
@@ -462,8 +445,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "WirelessVINThub_Address_Str" in setup_dict:
-            self.WirelessVINThub_Address_Str = str(setup_dict["WirelessVINThub_Address_Str"])
+        if "WirelessVINThub_Address_Str" in SetupDict:
+            self.WirelessVINThub_Address_Str = str(SetupDict["WirelessVINThub_Address_Str"])
         else:
             print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: Error, 'WirelessVINThub_Address_Str' must be specified.")
             return
@@ -474,8 +457,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "WirelessVINThub_Port_Int" in setup_dict:
-            self.WirelessVINThub_Port_Int = int(setup_dict["WirelessVINThub_Port_Int"])
+        if "WirelessVINThub_Port_Int" in SetupDict:
+            self.WirelessVINThub_Port_Int = int(SetupDict["WirelessVINThub_Port_Int"])
         else:
             self.WirelessVINThub_Port_Int = 5661
 
@@ -485,8 +468,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "WirelessVINThub_ServerNotWiFiAccessPointNetworkPassword_Str" in setup_dict:
-            self.WirelessVINThub_ServerNotWiFiAccessPointNetworkPassword_Str = str(setup_dict["WirelessVINThub_ServerNotWiFiAccessPointNetworkPassword_Str"])
+        if "WirelessVINThub_ServerNotWiFiAccessPointNetworkPassword_Str" in SetupDict:
+            self.WirelessVINThub_ServerNotWiFiAccessPointNetworkPassword_Str = str(SetupDict["WirelessVINThub_ServerNotWiFiAccessPointNetworkPassword_Str"])
         else:
             self.WirelessVINThub_Password_Str = ""
 
@@ -496,8 +479,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "WirelessVINThub_Flags_Int" in setup_dict:
-            self.WirelessVINThub_Flags_Int = int(setup_dict["WirelessVINThub_Flags_Int"])
+        if "WirelessVINThub_Flags_Int" in SetupDict:
+            self.WirelessVINThub_Flags_Int = int(SetupDict["WirelessVINThub_Flags_Int"])
 
             if self.WirelessVINThub_Flags_Int != 0:
                 print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: CAUTION, Phidgets API says that 'WirelessVINThub_Flags_Int' should be set to 0. Are you sure that you want to set it to " + str(self.WirelessVINThub_Flags_Int) + "?")
@@ -510,8 +493,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "VoltageRatioInput0Object_SteadyStateOffset" in setup_dict:
-            self.VoltageRatioInput0Object_SteadyStateOffset = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("VoltageRatioInput0Object_SteadyStateOffset", setup_dict["VoltageRatioInput0Object_SteadyStateOffset"], -1.0, 1.0)
+        if "VoltageRatioInput0Object_SteadyStateOffset" in SetupDict:
+            self.VoltageRatioInput0Object_SteadyStateOffset = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("VoltageRatioInput0Object_SteadyStateOffset", SetupDict["VoltageRatioInput0Object_SteadyStateOffset"], -1.0, 1.0)
         else:
             self.VoltageRatioInput0Object_SteadyStateOffset = 0
 
@@ -521,8 +504,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "VoltageRatioInput1Object_SteadyStateOffset" in setup_dict:
-            self.VoltageRatioInput1Object_SteadyStateOffset = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("VoltageRatioInput1Object_SteadyStateOffset", setup_dict["VoltageRatioInput1Object_SteadyStateOffset"], -1.0, 1.0)
+        if "VoltageRatioInput1Object_SteadyStateOffset" in SetupDict:
+            self.VoltageRatioInput1Object_SteadyStateOffset = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("VoltageRatioInput1Object_SteadyStateOffset", SetupDict["VoltageRatioInput1Object_SteadyStateOffset"], -1.0, 1.0)
         else:
             self.VoltageRatioInput1Object_SteadyStateOffset = 0
 
@@ -532,8 +515,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "VoltageRatioInput0Object_LowPassFilter_Lambda" in setup_dict:
-            self.VoltageRatioInput0Object_LowPassFilter_Lambda = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("VoltageRatioInput0Object_LowPassFilter_Lambda", setup_dict["VoltageRatioInput0Object_LowPassFilter_Lambda"], 0.0, 1.0)
+        if "VoltageRatioInput0Object_LowPassFilter_Lambda" in SetupDict:
+            self.VoltageRatioInput0Object_LowPassFilter_Lambda = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("VoltageRatioInput0Object_LowPassFilter_Lambda", SetupDict["VoltageRatioInput0Object_LowPassFilter_Lambda"], 0.0, 1.0)
         else:
             self.VoltageRatioInput0Object_LowPassFilter_Lambda = 1.0 #Default to no filtering, new_filtered_value = k * raw_sensor_value + (1 - k) * old_filtered_value
 
@@ -543,8 +526,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
         #########################################################
         #########################################################
-        if "VoltageRatioInput1Object_LowPassFilter_Lambda" in setup_dict:
-            self.VoltageRatioInput1Object_LowPassFilter_Lambda = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("VoltageRatioInput1Object_LowPassFilter_Lambda", setup_dict["VoltageRatioInput1Object_LowPassFilter_Lambda"], 0.0, 1.0)
+        if "VoltageRatioInput1Object_LowPassFilter_Lambda" in SetupDict:
+            self.VoltageRatioInput1Object_LowPassFilter_Lambda = self.PassThroughFloatValuesInRange_ExitProgramOtherwise("VoltageRatioInput1Object_LowPassFilter_Lambda", SetupDict["VoltageRatioInput1Object_LowPassFilter_Lambda"], 0.0, 1.0)
         else:
             self.VoltageRatioInput1Object_LowPassFilter_Lambda = 1.0 #Default to no filtering, new_filtered_value = k * raw_sensor_value + (1 - k) * old_filtered_value
 
@@ -555,13 +538,13 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
         #########################################################
         #########################################################
         try:
-            self.VoltageRatioInput0Object_LowPassFilter_Lambda_Object =  LowPassFilter_ReubenPython2and3Class(dict([("UseMedianFilterFlag", 1),
-                                                    ("UseExponentialSmoothingFilterFlag", 1),
-                                                    ("ExponentialSmoothingFilterLambda", self.VoltageRatioInput0Object_LowPassFilter_Lambda)]))
+            self.VoltageRatioInput0Object_LowPassFilter_Lambda_Object =  LowPassFilter_ReubenPython2and3Class(dict([("UseMedianFilterFlag", 0),
+                                                                                                                    ("UseExponentialSmoothingFilterFlag", 1),
+                                                                                                                    ("ExponentialSmoothingFilterLambda", self.VoltageRatioInput0Object_LowPassFilter_Lambda)]))
 
-            self.VoltageRatioInput1Object_LowPassFilter_Lambda_Object =  LowPassFilter_ReubenPython2and3Class(dict([("UseMedianFilterFlag", 1),
-                                                    ("UseExponentialSmoothingFilterFlag", 1),
-                                                    ("ExponentialSmoothingFilterLambda", self.VoltageRatioInput1Object_LowPassFilter_Lambda)]))
+            self.VoltageRatioInput1Object_LowPassFilter_Lambda_Object =  LowPassFilter_ReubenPython2and3Class(dict([("UseMedianFilterFlag", 0),
+                                                                                                                    ("UseExponentialSmoothingFilterFlag", 1),
+                                                                                                                    ("ExponentialSmoothingFilterLambda", self.VoltageRatioInput1Object_LowPassFilter_Lambda)]))
         except:
             exceptions = sys.exc_info()[0]
             print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class __init__: Exceptions: %s" % exceptions)
@@ -757,11 +740,6 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
             #########################################################
 
             #########################################################
-            if self.USE_GUI_FLAG == 1:
-                self.StartGUI(self.root)
-            #########################################################
-
-            #########################################################
             self.OBJECT_CREATED_SUCCESSFULLY_FLAG = 1
             #########################################################
 
@@ -771,74 +749,202 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
     #######################################################################################################################
     #######################################################################################################################
 
-    #######################################################################################################################
-    #######################################################################################################################
-    def __del__(self):
-        pass
-    #######################################################################################################################
-    #######################################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+    def LimitNumber_IntOutputOnly(self, min_val, max_val, test_val):
+        if test_val > max_val:
+            test_val = max_val
+
+        elif test_val < min_val:
+            test_val = min_val
+
+        else:
+            test_val = test_val
+
+        test_val = int(test_val)
+
+        return test_val
+    ##########################################################################################################
+    ##########################################################################################################
 
     ##########################################################################################################
     ##########################################################################################################
-    def PassThrough0and1values_ExitProgramOtherwise(self, InputNameString, InputNumber):
+    def LimitNumber_FloatOutputOnly(self, min_val, max_val, test_val):
+        if test_val > max_val:
+            test_val = max_val
 
+        elif test_val < min_val:
+            test_val = min_val
+
+        else:
+            test_val = test_val
+
+        test_val = float(test_val)
+
+        return test_val
+    ##########################################################################################################
+    ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+    def PassThrough0and1values_ExitProgramOtherwise(self, InputNameString, InputNumber, ExitProgramIfFailureFlag=1):
+
+        ##########################################################################################################
+        ##########################################################################################################
         try:
+
+            ##########################################################################################################
             InputNumber_ConvertedToFloat = float(InputNumber)
+            ##########################################################################################################
+
         except:
+
+            ##########################################################################################################
             exceptions = sys.exc_info()[0]
-            print("PassThrough0and1values_ExitProgramOtherwise Error. InputNumber must be a float value, Exceptions: %s" % exceptions)
-            input("Press any key to continue")
-            sys.exit()
+            print("PassThrough0and1values_ExitProgramOtherwise Error. InputNumber must be a numerical value, Exceptions: %s" % exceptions)
 
-        try:
-            if InputNumber_ConvertedToFloat == 0.0 or InputNumber_ConvertedToFloat == 1:
-                return InputNumber_ConvertedToFloat
-            else:
-                input("PassThrough0and1values_ExitProgramOtherwise Error. '" +
-                          InputNameString +
-                          "' must be 0 or 1 (value was " +
-                          str(InputNumber_ConvertedToFloat) +
-                          "). Press any key (and enter) to exit.")
-
+            ##########################
+            if ExitProgramIfFailureFlag == 1:
                 sys.exit()
+            else:
+                return -1
+            ##########################
+
+            ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        try:
+
+            ##########################################################################################################
+            if InputNumber_ConvertedToFloat == 0.0 or InputNumber_ConvertedToFloat == 1.0:
+                return InputNumber_ConvertedToFloat
+
+            else:
+
+                print("PassThrough0and1values_ExitProgramOtherwise Error. '" +
+                      str(InputNameString) +
+                      "' must be 0 or 1 (value was " +
+                      str(InputNumber_ConvertedToFloat) +
+                      ").")
+
+                ##########################
+                if ExitProgramIfFailureFlag == 1:
+                    sys.exit()
+
+                else:
+                    return -1
+                ##########################
+
+            ##########################################################################################################
+
         except:
+
+            ##########################################################################################################
             exceptions = sys.exc_info()[0]
             print("PassThrough0and1values_ExitProgramOtherwise Error, Exceptions: %s" % exceptions)
-            input("Press any key to continue")
-            sys.exit()
+
+            ##########################
+            if ExitProgramIfFailureFlag == 1:
+                sys.exit()
+            else:
+                return -1
+            ##########################
+
+            ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
     ##########################################################################################################
     ##########################################################################################################
 
     ##########################################################################################################
     ##########################################################################################################
-    def PassThroughFloatValuesInRange_ExitProgramOtherwise(self, InputNameString, InputNumber, RangeMinValue, RangeMaxValue):
+    ##########################################################################################################
+    ##########################################################################################################
+    def PassThroughFloatValuesInRange_ExitProgramOtherwise(self, InputNameString, InputNumber, RangeMinValue, RangeMaxValue, ExitProgramIfFailureFlag=1):
+
+        ##########################################################################################################
+        ##########################################################################################################
         try:
+            ##########################################################################################################
             InputNumber_ConvertedToFloat = float(InputNumber)
+            ##########################################################################################################
+
         except:
+            ##########################################################################################################
             exceptions = sys.exc_info()[0]
             print("PassThroughFloatValuesInRange_ExitProgramOtherwise Error. InputNumber must be a float value, Exceptions: %s" % exceptions)
-            input("Press any key to continue")
-            sys.exit()
+            traceback.print_exc()
 
-        try:
-            if InputNumber_ConvertedToFloat >= RangeMinValue and InputNumber_ConvertedToFloat <= RangeMaxValue:
-                return InputNumber_ConvertedToFloat
-            else:
-                input("PassThroughFloatValuesInRange_ExitProgramOtherwise Error. '" +
-                          InputNameString +
-                          "' must be in the range [" +
-                          str(RangeMinValue) +
-                          ", " +
-                          str(RangeMaxValue) +
-                          "] (value was " +
-                          str(InputNumber_ConvertedToFloat) + "). Press any key (and enter) to exit.")
-
+            ##########################
+            if ExitProgramIfFailureFlag == 1:
                 sys.exit()
+            else:
+                return -11111.0
+            ##########################
+
+            ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        try:
+
+            ##########################################################################################################
+            InputNumber_ConvertedToFloat_Limited = self.LimitNumber_FloatOutputOnly(RangeMinValue, RangeMaxValue, InputNumber_ConvertedToFloat)
+
+            if InputNumber_ConvertedToFloat_Limited != InputNumber_ConvertedToFloat:
+                print("PassThroughFloatValuesInRange_ExitProgramOtherwise Error. '" +
+                      str(InputNameString) +
+                      "' must be in the range [" +
+                      str(RangeMinValue) +
+                      ", " +
+                      str(RangeMaxValue) +
+                      "] (value was " +
+                      str(InputNumber_ConvertedToFloat) + ")")
+
+                ##########################
+                if ExitProgramIfFailureFlag == 1:
+                    sys.exit()
+                else:
+                    return -11111.0
+                ##########################
+
+            else:
+                return InputNumber_ConvertedToFloat_Limited
+            ##########################################################################################################
+
         except:
+            ##########################################################################################################
             exceptions = sys.exc_info()[0]
             print("PassThroughFloatValuesInRange_ExitProgramOtherwise Error, Exceptions: %s" % exceptions)
-            input("Press any key to continue")
-            sys.exit()
+            traceback.print_exc()
+
+            ##########################
+            if ExitProgramIfFailureFlag == 1:
+                sys.exit()
+            else:
+                return -11111.0
+            ##########################
+
+            ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
     ##########################################################################################################
     ##########################################################################################################
 
@@ -1468,25 +1574,13 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
     ##########################################################################################################
     ##########################################################################################################
-    def StartGUI(self, GuiParent):
+    def CreateGUIobjects(self, TkinterParent):
 
-        #self.GUI_Thread_ThreadingObject = threading.Thread(target=self.GUI_Thread, args=(GuiParent,))
-        #self.GUI_Thread_ThreadingObject.setDaemon(True) #Should mean that the GUI thread is destroyed automatically when the main thread is destroyed.
-        #self.GUI_Thread_ThreadingObject.start()
-
-        self.GUI_Thread(GuiParent)
-    ##########################################################################################################
-    ##########################################################################################################
-
-    ##########################################################################################################
-    ##########################################################################################################
-    def GUI_Thread(self, parent):
-
-        print("Starting the GUI_Thread for PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class object.")
+        print("PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class, CreateGUIobjects event fired.")
 
         ###################################################
-        self.root = parent
-        self.parent = parent
+        self.root = TkinterParent
+        self.parent = TkinterParent
         ###################################################
 
         ###################################################
@@ -1525,9 +1619,11 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
         #################################################
 
         #################################################
-        self.Joystick2DdotDisplay_ReubenPython2and3ClassObject_GUIparametersDict = dict([("root", self.myFrame), ("GUI_ROW", 0), ("GUI_COLUMN", 1), ("GUI_PADX", 1), ("GUI_PADY", 1), ("GUI_ROWSPAN", 1), ("GUI_COLUMNSPAN", 1)])
-        self.Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict = dict([("GUIparametersDict", self.Joystick2DdotDisplay_ReubenPython2and3ClassObject_GUIparametersDict)])
-        self.Joystick2DdotDisplay_ReubenPython2and3ClassObject = Joystick2DdotDisplay_ReubenPython2and3Class(self.Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict)
+        self.Joystick2DdotDisplay_GUIparametersDict = dict([("GUI_ROW", 0), ("GUI_COLUMN", 1), ("GUI_PADX", 1), ("GUI_PADY", 1), ("GUI_ROWSPAN", 1), ("GUI_COLUMNSPAN", 1)])
+        self.Joystick2DdotDisplay_SetupDict = dict([("GUIparametersDict", self.Joystick2DdotDisplay_GUIparametersDict)])
+        self.Joystick2DdotDisplay_Object = Joystick2DdotDisplay_ReubenPython2and3Class(self.Joystick2DdotDisplay_SetupDict)
+
+        self.Joystick2DdotDisplay_Object.CreateGUIobjects(self.myFrame)
         #################################################
 
         #################################################
@@ -1578,8 +1674,8 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
                     #########################################################
 
                     #########################################################
-                    self.Joystick2DdotDisplay_ReubenPython2and3ClassObject.UpdateDotCoordinatesAndDotColor(self.VoltageRatioInput0Object_VoltageRatio, self.VoltageRatioInput1Object_VoltageRatio, self.DigitalInput0Object_State)
-                    self.Joystick2DdotDisplay_ReubenPython2and3ClassObject.GUI_update_clock()
+                    self.Joystick2DdotDisplay_Object.UpdateDotCoordinatesAndDotColor(self.VoltageRatioInput0Object_VoltageRatio, self.VoltageRatioInput1Object_VoltageRatio, self.DigitalInput0Object_State)
+                    self.Joystick2DdotDisplay_Object.GUI_update_clock()
                     #########################################################
 
                     #######################################################
@@ -1805,5 +1901,39 @@ class PhidgetsWirelessVINThubWithThumbstick_ReubenPython2and3Class(Frame): #Subc
 
     ##########################################################################################################
     ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    def ConvertDictToProperlyFormattedStringForPrinting(self, DictToPrint, NumberOfDecimalsPlaceToUse = 3, NumberOfEntriesPerLine = 1, NumberOfTabsBetweenItems = 3):
+
+        ProperlyFormattedStringForPrinting = ""
+        ItemsPerLineCounter = 0
+
+        for Key in DictToPrint:
+
+            ##########################################################################################################
+            if isinstance(DictToPrint[Key], dict): #RECURSION
+                ProperlyFormattedStringForPrinting = ProperlyFormattedStringForPrinting + \
+                                                     str(Key) + ":\n" + \
+                                                     self.ConvertDictToProperlyFormattedStringForPrinting(DictToPrint[Key], NumberOfDecimalsPlaceToUse, NumberOfEntriesPerLine, NumberOfTabsBetweenItems)
+
+            else:
+                ProperlyFormattedStringForPrinting = ProperlyFormattedStringForPrinting + \
+                                                     str(Key) + ": " + \
+                                                     self.ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput(DictToPrint[Key], 0, NumberOfDecimalsPlaceToUse)
+            ##########################################################################################################
+
+            ##########################################################################################################
+            if ItemsPerLineCounter < NumberOfEntriesPerLine - 1:
+                ProperlyFormattedStringForPrinting = ProperlyFormattedStringForPrinting + "\t"*NumberOfTabsBetweenItems
+                ItemsPerLineCounter = ItemsPerLineCounter + 1
+            else:
+                ProperlyFormattedStringForPrinting = ProperlyFormattedStringForPrinting + "\n"
+                ItemsPerLineCounter = 0
+            ##########################################################################################################
+
+        return ProperlyFormattedStringForPrinting
     ##########################################################################################################
     ##########################################################################################################
